@@ -2,7 +2,10 @@
 
 Interactive 2D/3D embedding visualization for JSON documents.
 
-Diorama takes high-dimensional embeddings and a list of JSON documents, runs dimensionality reduction, and produces interactive Plotly scatter plots. Color points by any field in your documents, filter with MongoDB query syntax, and switch between perspectives via dropdown.
+Diorama takes high-dimensional embeddings and a list of JSON documents,
+runs dimensionality reduction, and produces interactive Plotly scatter plots.
+Color points by any field in your documents, filter with MongoDB query syntax,
+and switch between perspectives via dropdown.
 
 ## Install
 
@@ -38,7 +41,8 @@ diorama.show(reduced, documents, color_by="score")
 diorama.show(reduced, documents, filter={"score": {"$gt": 3.0}})
 ```
 
-Positions are stable across calls — the same document always appears at the same coordinates.
+Positions are stable across calls — the same document always appears
+at the same coordinates.
 
 ## Large datasets
 
@@ -53,15 +57,25 @@ reduced = diorama.reduce(embeddings, n_components=2, subsample=10_000, show_prog
 Pass a single field, a list of fields (creates a dropdown), or `None` to auto-discover:
 
 ```python
-diorama.show(reduced, documents, color_by="category")                  # single field
-diorama.show(reduced, documents, color_by=["category", "city", "score"])  # dropdown
-diorama.show(reduced, documents)                                        # auto-discover top 15
+# single field
+diorama.show(reduced, documents, color_by="category")
+
+# dropdown
+diorama.show(reduced, documents, color_by=["category", "city", "score"])
+
+# auto-discover top 15
+diorama.show(reduced, documents)
 ```
 
-Numeric fields with many unique values are colored continuously. Low-cardinality numerics, strings, and booleans are categorical. Override with:
+Numeric fields with many unique values are colored continuously.
+Low-cardinality numerics, strings, and booleans are categorical. Override with:
 
 ```python
-diorama.show(reduced, documents, color_by="score", color_type_overrides={"score": "categorical"})
+diorama.show(
+    reduced, documents,
+    color_by="score",
+    color_type_overrides={"score": "categorical"},
+)
 ```
 
 ## Filtering
@@ -69,12 +83,18 @@ diorama.show(reduced, documents, color_by="score", color_type_overrides={"score"
 Filter documents using MongoDB query syntax:
 
 ```python
-diorama.show(reduced, documents, filter={"score": {"$gte": 4.0}, "city": "Sydney"})
-diorama.show(reduced, documents, filter={"$or": [{"city": "Sydney"}, {"city": "Melbourne"}]})
-diorama.show(reduced, documents, filter={"name": {"$regex": "^A"}})
+diorama.show(reduced, documents,
+             filter={"score": {"$gte": 4.0}, "city": "Sydney"})
+
+diorama.show(reduced, documents,
+             filter={"$or": [{"city": "Sydney"}, {"city": "Melbourne"}]})
+
+diorama.show(reduced, documents,
+             filter={"name": {"$regex": "^A"}})
 ```
 
-Supported operators: `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$nin`, `$exists`, `$regex`, `$and`, `$or`, `$not`, `$nor`.
+Supported operators: `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`,
+`$in`, `$nin`, `$exists`, `$regex`, `$and`, `$or`, `$not`, `$nor`.
 
 ## 3D
 
@@ -85,7 +105,8 @@ diorama.show(reduced_3d, documents, color_by="category")
 
 ## Dash app
 
-Launch an interactive web UI with a field dropdown, filter text input, and 2D/3D toggle:
+Launch an interactive web UI with a field dropdown, filter text input,
+and 2D/3D toggle:
 
 ```python
 diorama.app(embeddings, documents, subsample=10_000)
