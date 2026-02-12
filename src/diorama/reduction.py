@@ -22,8 +22,7 @@ def reduce_embeddings(
         method: "umap" or "tsne".
         show_progress: Show progress bar during reduction.
         subsample: If set, fit the reducer on this many random points, then
-            transform all points. Much faster for large datasets. Only
-            supported for UMAP.
+            transform all points. Much faster for large datasets.
         **kwargs: Passed to the underlying reducer constructor.
 
     Returns:
@@ -51,9 +50,9 @@ def reduce_embeddings(
             embeddings, n_components, show_progress=show_progress, subsample=subsample, **kwargs
         )
     elif method == "tsne":
-        if subsample is not None:
-            raise ValueError("subsample is not supported for T-SNE (no transform method).")
-        return _reduce_tsne(embeddings, n_components, show_progress=show_progress, **kwargs)
+        return _reduce_tsne(
+            embeddings, n_components, show_progress=show_progress, subsample=subsample, **kwargs
+        )
     else:
         raise ValueError(f"Unknown reduction method: {method!r}. Supported: 'umap', 'tsne'.")
 
@@ -88,16 +87,41 @@ def _reduce_umap(
 
 
 def _reduce_tsne(
-    embeddings: np.ndarray, n_components: int, *, show_progress: bool = False, **kwargs
+    embeddings: np.ndarray,
+    n_components: int,
+    *,
+    show_progress: bool = False,
+    subsample: int | None = None,
+    **kwargs,
 ) -> np.ndarray:
     try:
-        from sklearn.manifold import TSNE
+        from openTSNE import TSNE
     except ImportError:
         raise ImportError(
-            "scikit-learn is required for T-SNE reduction. "
+            "openTSNE is required for T-SNE reduction. "
             "Install it with: pip install diorama[tsne]"
         ) from None
 
-    params = {**kwargs, "n_components": n_components, "verbose": 1 if show_progress else 0}
+    defaults = {"metric": "cosine"}
+    if n_components > 2:
+        defaults["negative_gradient_method"] = "bh"
+    params = {**defaults, **kwargs, "n_components": n_components, "verbose": show_progress}
     reducer = TSNE(**params)
-    return reducer.fit_transform(embeddings)
+
+    n = len(embeddings)
+    if subsample is not None and subsample < n:
+        rng = np.random.default_rng(42)
+        sample_idx = rng.choice(n, size=subsample, replace=False)
+        mask = np.ones(n, dtype=bool)
+        mask[sample_idx] = False
+        rest_idx = np.where(mask)[0]
+
+        embedding_sample = reducer.fit(embeddings[sample_idx])
+        embedding_rest = embedding_sample.transform(embeddings[rest_idx])
+
+        result = np.empty((n, n_components), dtype=np.float64)
+        result[sample_idx] = np.asarray(embedding_sample)
+        result[rest_idx] = np.asarray(embedding_rest)
+        return result
+    else:
+        return np.asarray(reducer.fit(embeddings))

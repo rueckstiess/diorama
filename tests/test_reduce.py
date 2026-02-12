@@ -50,7 +50,19 @@ class TestReduceEmbeddings:
         assert result.shape == (50, 3)
 
     def test_tsne_reduction(self):
-        pytest.importorskip("sklearn")
+        pytest.importorskip("openTSNE")
         data = np.random.randn(50, 10)
         result = reduce_embeddings(data, n_components=2, method="tsne")
         assert result.shape == (50, 2)
+
+    def test_tsne_3d(self):
+        pytest.importorskip("openTSNE")
+        data = np.random.randn(50, 10)
+        result = reduce_embeddings(data, n_components=3, method="tsne")
+        assert result.shape == (50, 3)
+
+    def test_tsne_subsample(self):
+        pytest.importorskip("openTSNE")
+        data = np.random.randn(100, 10)
+        result = reduce_embeddings(data, n_components=2, method="tsne", subsample=30)
+        assert result.shape == (100, 2)

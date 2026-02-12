@@ -43,11 +43,11 @@ src/diorama/
 - **Reduce-then-filter**: ALL embeddings are reduced first, then filtered. This ensures
   stable point positions regardless of which filter is applied.
 - **No pandas**: Uses plain lists and numpy arrays instead of DataFrames/Series.
-- **Lazy imports**: umap-learn, scikit-learn, and dash are imported inside function bodies
+- **Lazy imports**: umap-learn, openTSNE, and dash are imported inside function bodies
   so they're only needed when actually used (optional dependencies).
 - **`_MISSING` sentinel** in query.py distinguishes "field absent" from "field is None".
-- **Subsample-then-transform**: For large datasets (100K+), fit UMAP on a random subset
-  then `.transform()` all points. T-SNE doesn't support this (no transform method).
+- **Subsample-then-transform**: For large datasets (100K+), fit the reducer on a random
+  subset then transform remaining points. Supported for both UMAP and T-SNE (via openTSNE).
 - **Plotly hover**: `<pre>` tags don't work in Plotly hover tooltips. Use `<br>` and
   `&nbsp;` for whitespace formatting instead.
 
@@ -60,7 +60,7 @@ resolved to the modules instead of the functions in `__init__.py`.
 ## Dependencies
 
 - **Core**: numpy, plotly
-- **Optional extras**: `[umap]` (umap-learn, pynndescent), `[tsne]` (scikit-learn),
+- **Optional extras**: `[umap]` (umap-learn, pynndescent), `[tsne]` (openTSNE),
   `[dash]` (dash), `[all]` (everything)
 - pynndescent>=0.5.14 floor is required to avoid old numba/llvmlite resolution issues
 

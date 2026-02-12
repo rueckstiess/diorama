@@ -29,7 +29,7 @@ def show(
     height: int | None = None,
     show_progress: bool = False,
     subsample: int | None = None,
-    umap_kwargs: dict | None = None,
+    reducer_kwargs: dict | None = None,
     output_path: str | None = None,
 ) -> go.Figure:
     """Visualize embeddings colored by document fields.
@@ -53,8 +53,8 @@ def show(
         height: Figure height in pixels. None uses Plotly's default.
         show_progress: Show progress bar during dimensionality reduction.
         subsample: Fit reducer on this many random points, then transform all.
-            Much faster for large datasets. Only supported for UMAP.
-        umap_kwargs: Extra kwargs passed to the UMAP/T-SNE constructor.
+            Much faster for large datasets.
+        reducer_kwargs: Extra kwargs passed to the UMAP/T-SNE constructor.
         output_path: If given, save the figure as an HTML file.
 
     Returns:
@@ -78,7 +78,7 @@ def show(
             method=method,
             show_progress=show_progress,
             subsample=subsample,
-            **(umap_kwargs or {}),
+            **(reducer_kwargs or {}),
         )
     elif embeddings.shape[1] in (2, 3):
         embedding_low = embeddings
@@ -160,7 +160,7 @@ def reduce(
         method: "umap" or "tsne".
         show_progress: Show progress bar during reduction.
         subsample: Fit reducer on this many random points, then transform all.
-            Much faster for large datasets. Only supported for UMAP.
+            Much faster for large datasets.
         **kwargs: Passed to the underlying reducer constructor.
 
     Returns:
@@ -188,7 +188,7 @@ def app(
     port: int = 8050,
     debug: bool = False,
     subsample: int | None = None,
-    umap_kwargs: dict | None = None,
+    reducer_kwargs: dict | None = None,
 ) -> None:
     """Launch interactive Dash app for exploring embeddings.
 
@@ -203,7 +203,7 @@ def app(
         port: Server port.
         debug: Dash debug mode.
         subsample: Fit reducer on this many random points, then transform all.
-        umap_kwargs: Extra kwargs passed to the reducer.
+        reducer_kwargs: Extra kwargs passed to the reducer.
     """
     from diorama.dashboard import create_app
 
@@ -213,6 +213,6 @@ def app(
         method=method,
         n_components=n_components,
         subsample=subsample,
-        umap_kwargs=umap_kwargs,
+        reducer_kwargs=reducer_kwargs,
     )
     dash_app.run(host=host, port=port, debug=debug)

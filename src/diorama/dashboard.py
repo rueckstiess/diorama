@@ -21,7 +21,7 @@ def create_app(
     method: str = "umap",
     n_components: int = 2,
     subsample: int | None = None,
-    umap_kwargs: dict | None = None,
+    reducer_kwargs: dict | None = None,
 ) -> dash.Dash:
     """Create and return a Dash app for interactive embedding exploration.
 
@@ -44,7 +44,7 @@ def create_app(
     from diorama.viz import create_figure
 
     # Pre-compute reductions
-    kwargs = umap_kwargs or {}
+    kwargs = reducer_kwargs or {}
     if embeddings.shape[1] <= 3:
         # Already reduced — use as-is for matching dimension, skip the other
         embedding_cache = {embeddings.shape[1]: embeddings}

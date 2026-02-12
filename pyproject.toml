@@ -1,6 +1,6 @@
 [project]
 name = "diorama"
-version = "0.1.0"
+version = "0.2.0"
 description = "2D/3D embedding visualization for JSON documents"
 readme = "README.md"
 authors = [
@@ -15,15 +15,15 @@ dependencies = [
 
 [project.optional-dependencies]
 umap = ["umap-learn>=0.5.7", "pynndescent>=0.5.14"]
-tsne = ["scikit-learn>=1.3"]
+tsne = ["openTSNE>=1.0"]
 dash = ["dash>=2.14"]
-all = ["umap-learn>=0.5.7", "pynndescent>=0.5.14", "scikit-learn>=1.3", "dash>=2.14"]
+all = ["umap-learn>=0.5.7", "pynndescent>=0.5.14", "openTSNE>=1.0", "dash>=2.14"]
 dev = [
     "pytest>=7.4",
     "ruff>=0.4",
     "umap-learn>=0.5.7",
     "pynndescent>=0.5.14",
-    "scikit-learn>=1.3",
+    "openTSNE>=1.0",
     "dash>=2.14",
 ]
 
