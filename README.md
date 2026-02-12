@@ -49,7 +49,10 @@ at the same coordinates.
 For 100K+ points, fit UMAP on a subset and transform the rest:
 
 ```python
-reduced = diorama.reduce(embeddings, n_components=2, subsample=10_000, show_progress=True)
+reduced = diorama.reduce(
+    embeddings, n_components=2,
+    subsample=10_000, show_progress=True,
+)
 ```
 
 ## Coloring
