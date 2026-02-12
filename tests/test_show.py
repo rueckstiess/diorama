@@ -91,9 +91,7 @@ class TestShow:
 
     def test_output_path(self, pre_reduced_2d, sample_docs, tmp_path):
         output = str(tmp_path / "test.html")
-        fig = diorama.show(
-            pre_reduced_2d, sample_docs, color_by="category", output_path=output
-        )
+        fig = diorama.show(pre_reduced_2d, sample_docs, color_by="category", output_path=output)
         assert isinstance(fig, go.Figure)
         assert (tmp_path / "test.html").exists()
 
@@ -107,7 +105,5 @@ class TestReduce:
 
 class TestColoringPerspective:
     def test_exported(self):
-        p = diorama.ColoringPerspective(
-            name="test", color_type="categorical", values=["a", "b"]
-        )
+        p = diorama.ColoringPerspective(name="test", color_type="categorical", values=["a", "b"])
         assert p.name == "test"

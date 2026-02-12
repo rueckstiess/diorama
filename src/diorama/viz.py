@@ -41,9 +41,7 @@ def create_figure(
         Plotly Figure object.
     """
     if embedding.ndim != 2 or embedding.shape[1] not in (2, 3):
-        raise ValueError(
-            f"embedding must have shape (N, 2) or (N, 3), got {embedding.shape}"
-        )
+        raise ValueError(f"embedding must have shape (N, 2) or (N, 3), got {embedding.shape}")
 
     n_dims = embedding.shape[1]
     x = embedding[:, 0]

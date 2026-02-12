@@ -101,9 +101,7 @@ class TestCreateFigure:
         assert len(fig.data) == 1
 
     def test_all_none_continuous(self, embedding_2d, hover_text):
-        persp = ColoringPerspective(
-            name="empty", color_type="continuous", values=[None] * 20
-        )
+        persp = ColoringPerspective(name="empty", color_type="continuous", values=[None] * 20)
         fig = create_figure(embedding_2d, [persp], hover_text)
         # No traces added for all-None perspective
         assert len(fig.data) == 0

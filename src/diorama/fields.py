@@ -118,9 +118,7 @@ def build_perspectives(
             values = [str(v) if v is not None else "N/A" for v in raw_values]
         else:
             values = [
-                float(v)
-                if isinstance(v, (int, float)) and not isinstance(v, bool)
-                else None
+                float(v) if isinstance(v, (int, float)) and not isinstance(v, bool) else None
                 for v in raw_values
             ]
 

@@ -10,10 +10,7 @@ from diorama.dashboard import create_app  # noqa: E402
 
 @pytest.fixture
 def sample_data():
-    docs = [
-        {"name": f"item_{i}", "category": f"cat_{i % 3}", "score": float(i)}
-        for i in range(20)
-    ]
+    docs = [{"name": f"item_{i}", "category": f"cat_{i % 3}", "score": float(i)} for i in range(20)]
     embeddings = np.random.randn(20, 2)  # pre-reduced
     return embeddings, docs
 

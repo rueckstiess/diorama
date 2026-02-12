@@ -32,8 +32,7 @@ def create_app(
         from dash import Input, Output, State, dcc, html
     except ImportError:
         raise ImportError(
-            "Dash is required for the interactive app. "
-            "Install it with: pip install diorama[dash]"
+            "Dash is required for the interactive app. Install it with: pip install diorama[dash]"
         ) from None
 
     import plotly.graph_objects as go
@@ -51,8 +50,12 @@ def create_app(
         embedding_cache = {embeddings.shape[1]: embeddings}
     else:
         embedding_cache = {
-            2: reduce_embeddings(embeddings, n_components=2, method=method, subsample=subsample, **kwargs),
-            3: reduce_embeddings(embeddings, n_components=3, method=method, subsample=subsample, **kwargs),
+            2: reduce_embeddings(
+                embeddings, n_components=2, method=method, subsample=subsample, **kwargs
+            ),
+            3: reduce_embeddings(
+                embeddings, n_components=3, method=method, subsample=subsample, **kwargs
+            ),
         }
 
     field_paths = extract_field_paths(documents)

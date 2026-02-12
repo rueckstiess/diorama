@@ -67,8 +67,7 @@ def show(
 
     if len(embeddings) != len(documents):
         raise ValueError(
-            f"embeddings length ({len(embeddings)}) must match "
-            f"documents length ({len(documents)})"
+            f"embeddings length ({len(embeddings)}) must match documents length ({len(documents)})"
         )
 
     # 1. Reduce all embeddings first (stable positions)
@@ -84,9 +83,7 @@ def show(
     elif embeddings.shape[1] in (2, 3):
         embedding_low = embeddings
     else:
-        raise ValueError(
-            f"Embeddings must have at least 2 dimensions, got {embeddings.shape[1]}"
-        )
+        raise ValueError(f"Embeddings must have at least 2 dimensions, got {embeddings.shape[1]}")
 
     # 2. Apply filter (on pre-reduced points for stable positions)
     if filter is not None:

@@ -70,8 +70,7 @@ def _reduce_umap(
         from umap import UMAP
     except ImportError:
         raise ImportError(
-            "umap-learn is required for UMAP reduction. "
-            "Install it with: pip install diorama[umap]"
+            "umap-learn is required for UMAP reduction. Install it with: pip install diorama[umap]"
         ) from None
 
     defaults = {"n_neighbors": 30, "min_dist": 0.05, "metric": "cosine", "low_memory": False}
