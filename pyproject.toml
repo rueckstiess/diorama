@@ -1,0 +1,46 @@
+[project]
+name = "diorama"
+version = "0.1.0"
+description = "2D/3D embedding visualization for JSON documents"
+readme = "README.md"
+authors = [
+    { name = "Thomas Rueckstiess", email = "me@tomr.au" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=1.24",
+    "plotly>=5.0",
+]
+
+[project.optional-dependencies]
+umap = ["umap-learn>=0.5.7", "pynndescent>=0.5.14"]
+tsne = ["scikit-learn>=1.3"]
+dash = ["dash>=2.14"]
+all = ["umap-learn>=0.5.7", "pynndescent>=0.5.14", "scikit-learn>=1.3", "dash>=2.14"]
+dev = [
+    "pytest>=7.4",
+    "ruff>=0.4",
+    "umap-learn>=0.5.7",
+    "pynndescent>=0.5.14",
+    "scikit-learn>=1.3",
+    "dash>=2.14",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
